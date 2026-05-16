@@ -1,0 +1,11 @@
+.header {
+  position: fixed;
+  top: 6%;
+  left: 3%;
+}
+
+.back {
+  position: fixed;
+  height: 24px;
+  filter: opacity(65%);
+}

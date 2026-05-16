@@ -1,0 +1,17 @@
+{
+  "name": "recipe-cleanup-proxy",
+  "version": "1.0.0",
+  "description": "Proxy server for recipe-cleanup",
+  "type": "module",
+  "scripts": {
+    "dev": "export NODE_ENV='dev' && DEBUG=express:* && node ./routes/proxy.js"
+  },
+  "dependencies": {
+    "@google/genai": "^2.2.0",
+    "cheerio": "^1.2.0",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "http-proxy-middleware": "^3.0.5",
+    "node-fetch": "^3.3.2"
+  }
+}

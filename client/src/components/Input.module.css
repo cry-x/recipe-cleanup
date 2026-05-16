@@ -1,0 +1,50 @@
+.div {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 15%;
+}
+
+.urlinput {
+  height: 50px;
+  width: 320px;
+  border-radius: 8px;
+  padding: 3px 20px 3px 20px;
+  font-size: 18px;
+  color: #565656;
+  border: 1px solid rgb(209, 208, 206);
+  margin: 10px 10px 10px 10px;
+}
+
+.urlinput:focus {
+  outline: none;
+}
+
+.inputdiv {
+  display: flex;
+  flex-direction: row;
+}
+
+.submitbtn {
+  height: 50px;
+  width: 110px;
+  border-radius: 8px;
+  padding: 10px 10px 10px 10px;
+  font-size: 18px;
+  background-color: #8cb82d;
+  border: 1px solid rgb(125, 179, 16);
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.submitbtn:hover {
+  cursor: pointer;
+}
+
+.errormsg {
+  color: #7a7a7a;
+  position: absolute;
+  top: 50%;
+}
