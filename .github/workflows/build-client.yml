@@ -1,0 +1,50 @@
+name: Build client image
+
+on: workflow_dispatch
+  # push:
+  #   branches:
+  #     - master
+
+env:
+  IMAGE_NAME: "recipe-cleanup"
+  PROJECT_ID: "npp-cloud-461405"
+  AR_REPO_LOCATION: "us-central1"
+  AR_URL: "us-central1-docker.pkg.dev/npp-cloud-461405/recipe-cleanup"
+  SERVICE_ACCOUNT: "github-actions@npp-cloud-461405.iam.gserviceaccount.com"
+  WORKLOAD_IDENTITY_PROVIDER: "projects/1006385503488/locations/global/workloadIdentityPools/github-actions/providers/github-actions-provider"
+
+jobs:
+  build:
+    permissions:
+      contents: "read"
+      id-token: "write"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          sparse-checkout: client
+
+      - name: Google Auth
+        id: auth
+        uses: "google-github-actions/auth@v2"
+        with:
+          token_format: "access_token"
+          project_id: ${{ env.PROJECT_ID }}
+          service_account: ${{ env.SERVICE_ACCOUNT }}
+          workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
+
+      - name: Docker Auth
+        id: docker-auth
+        uses: "docker/login-action@v1"
+        with:
+          username: "oauth2accesstoken"
+          password: "${{ steps.auth.outputs.access_token }}"
+          registry: "${{ env.AR_REPO_LOCATION }}-docker.pkg.dev"
+
+      - name: Build and Push Container
+        env:
+            PLATFORM: linux/amd64
+            PROXY_URL: https://proxy-server-1006385503488.us-central1.run.app
+        run: |-
+          docker buildx build --platform ${{env.PLATFORM}} -e PROXY_URL="${{ env.PROXY_URL }}" -t "${{ env.AR_URL }}/${{ env.IMAGE_NAME }}:${{ github.sha }}" ./
+          docker push "${{ env.AR_URL }}/${{ env.IMAGE_NAME }}:${{ github.sha }}"
