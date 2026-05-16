@@ -44,6 +44,8 @@ jobs:
       - name: Build and Push Container
         env:
           PLATFORM: linux/amd64
+          CLIENT_URL: https://recipe-cleanup-1006385503488.us-central1.run.app
+          PORT: 8080
         run: |-
-          docker buildx build --platform ${{env.PLATFORM}} -t "${{ env.AR_URL }}/${{ env.IMAGE_NAME }}:${{ github.sha }}" ./
+          docker buildx build --platform ${{env.PLATFORM}} -e PORT="${{ env.PORT }}" -e CLIENT_URL="${{ env.CLIENT_URL }}" -t "${{ env.AR_URL }}/${{ env.IMAGE_NAME }}:${{ github.sha }}" ./
           docker push "${{ env.AR_URL }}/${{ env.IMAGE_NAME }}:${{ github.sha }}"

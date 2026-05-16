@@ -3,12 +3,13 @@ import cors from 'cors';
 import url from 'url';
 import getRecipeObj from './utils/parse-recipe.js';
 
-const PORT = process.env.PORT || 8080;
-const BASE_URL = process.env.CLIENT_URL;
-const ALLOWED_ORIGIN = process.env.NODE_ENV === "dev" ? `http://localhost:5173` : BASE_URL;
+const PORT = process.env.PORT || 3000;
+const ALLOWED_ORIGIN = process.env.CLIENT_URL || `http://localhost:5173`;
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: ALLOWED_ORIGIN
+}));
 app.use(express.json());
 
 app.use((req, res, next) => {
